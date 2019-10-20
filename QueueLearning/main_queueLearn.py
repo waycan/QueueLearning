@@ -76,6 +76,8 @@ class queueLearn_time(object):
             self._plot(ax, range(0, self.time_horizon), self.num_client_class, 'time', 'number of clients per class',
                        None, (['Class {}'.format(i) for i in range(self._parameters['num_class'])]))
         if save_figure:
+            if not os.path.exists('Figures/'):
+                os.mkdir('Figures/')
             figure_dir = 'Figures/'
             if not os.path.exists(figure_dir):
                 os.mkdir(figure_dir)
@@ -94,8 +96,7 @@ class queueLearn_time(object):
 
 def cmd_parser():
     parser = argparse.ArgumentParser(prog='QueueLearning', description='Run queueing with learning simulations.')
-    parser.add_argument('--outfile', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
-                        help="insert output filename")
+    parser.add_argument('-o', "--outfile", type=str, default='expect_reward.txt', help="insert output filename")
 
     parser.add_argument("-s", "--save", action='store_true', help="save simulation results/plots")
     parser.add_argument("-p", "--plot", action='store_true', help="show plots")
@@ -124,10 +125,10 @@ if __name__ == "__main__":
 
     alg1_expect_reward_mean = np.mean(expect_reward_alg1_all, axis=0)
 
-    if args.save:
-        np.savetxt("expected_reward_alg1.txt", alg1_expect_reward_mean, delimiter=",", fmt="%.3f")
-        if args.plot:
-            q1.plot_results(args.save)
+    if args.outfile:
+        np.savetxt(args.outfile, alg1_expect_reward_mean, delimiter=",", fmt="%.3f")
+    if args.plot:
+        q1.plot_results(args.save)
 
     # for myopic matching simulation
     if args.myopic:
@@ -138,10 +139,9 @@ if __name__ == "__main__":
             expect_reward_myopic_all.append(q2.expect_reward)
         myopic_expect_reward_mean = np.mean(expect_reward_myopic_all, axis=0)
 
-        if args.save:
-            np.savetxt("expected_reward_myopic.txt", myopic_expect_reward_mean, delimiter=",", fmt="%.3f")
-            if args.plot:
-                q2.plot_results(args.save)
+        if args.outfile:
+            np.savetxt(args.outfile, myopic_expect_reward_mean, delimiter=",", fmt="%.3f")
+        if args.plot:
+            q2.plot_results(args.save)
 
     plt.show()
-

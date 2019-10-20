@@ -84,15 +84,15 @@ if __name__ == '__main__':
     # System parameters
     """ Control the conservativeness of the system, i.e., the larger the value, the longer time to explore and assign"""
     Gamma = 1.1  # the value have to be larger than (>) maximum value of ucb_reward_matrix defined below.
-    V = 1
+    V = 20
 
     # User specified parameters
-    """ The UCB estimated reward matrix. 
-    Each row contains a client's estimate for how good to assign task to each server.  
-    Note that, the matrix is not the same as true payoff estimates. 
-    Instead, it is be the truncated ucb estimates for each client to every server. 
-    E.g., client-1 has ucb estimates of 0.9 and 0.3 for server 1 and 2, respectively.   
-    But client-1's true payoff estimate for the two servers could be 0.6 and 0.2. 
+    """ The UCB estimated reward matrix.
+    Each row contains a client's estimate for how good to assign task to each server.
+    Note that, the matrix is not the same as true payoff estimates.
+    Instead, it is be the truncated ucb estimates for each client to every server.
+    E.g., client-1 has ucb estimates of 0.9 and 0.3 for server 1 and 2, respectively.
+    But client-1's true payoff estimate for the two servers could be 0.6 and 0.2.
     """
     ucb_reward_matrix = np.array([[0.9, 0.3], [0.9, 0.1]])
 
@@ -102,6 +102,6 @@ if __name__ == '__main__':
     # Compute assign probability
     computed_assign_task = Algorithm1(ucb_reward_matrix - Gamma, service_rate, V, verbose=args.verbose)
 
-    print("Reward matrix\n{}\n".format(reward_matrix))
+    print("UCB reward matrix\n{}\n".format(ucb_reward_matrix))
     print("Service rate\n{}\n".format(service_rate))
-    print("Task-assign matrix \n{}\n".format(computed_assign_task))
+    print("Task-assignment matrix \n{}\n".format(computed_assign_task))
