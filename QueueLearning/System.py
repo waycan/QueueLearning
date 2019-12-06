@@ -22,7 +22,8 @@ class System(object):
         self.reward_matrix = sys_param['reward_mat']
         self.num_avg_task = sys_param['num_tsk_per_usr']
         self.ucb_est_clients = np.zeros((self.num_clients, sys_param['num_server']))
-        self.user_in_rate = np.random.rand(2, 10000)
+        self.time_horizon = sys_param['time_horizon']
+        self.user_in_rate = np.random.rand(2, self.time_horizon)
 
         if sys_param['continuous']:
             self.Lambda = sys_param['Lambda']
